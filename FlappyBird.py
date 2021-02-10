@@ -27,14 +27,11 @@ START_SCREEN = pygame.image.load(os.path.join('assets', 'message.png'))
 PIPE = pygame.image.load(os.path.join('assets', 'pipe-green.png'))
 
 
-def moveFloor():
-    base1Pos = pygame.Rect(0, 450, BASE_WIDTH, BASE_HEIGHT)
-    base2Pos = pygame.Rect(WIDTH, 450, BASE_WIDTH, BASE_HEIGHT)
-    WIN.blit(BASE, (base1Pos.x, base1Pos.y))
-    WIN.blit(BASE, (base2Pos.x, base2Pos.y))
-
+def moveFloor(base1Pos, base2Pos):
     base1Pos.x -= 1
     base2Pos.x -= 1
+    WIN.blit(BASE, (base1Pos.x, base1Pos.y))
+    WIN.blit(BASE, (base2Pos.x, base2Pos.y))
 
     if base2Pos.x == 0:
         base1Pos.x = WIDTH
@@ -42,17 +39,12 @@ def moveFloor():
         base2Pos.x = WIDTH
 
 
-def draw_window(birdPos, base1Pos, base2Pos):
+def draw_window(birdPos):
     WIN.fill((255, 255, 255))
 
     WIN.blit(BACKGROUND, (0, 0))
 
-    WIN.blit(BASE, (base1Pos.x, base1Pos.y))
-    WIN.blit(BASE, (base2Pos.x, base2Pos.y))
-    if base2Pos.x == 0:
-        base1Pos.x = WIDTH
-    if base1Pos.x == 0:
-        base2Pos.x = WIDTH
+    moveFloor(base1Pos, base2Pos)
 
     WIN.blit(BIRD_MID, (birdPos.x, birdPos.y))
 
@@ -72,11 +64,7 @@ def main():
         if keysPressed[pygame.K_SPACE]:
             birdPos.y -= VELOCITY
             
-
-        base1Pos.x -= 1
-        base2Pos.x -= 1
-
-        draw_window(birdPos, base1Pos, base2Pos)
+        draw_window(birdPos)
 
     pygame.quit()
 
